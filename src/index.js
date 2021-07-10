@@ -5,7 +5,10 @@ const app = express()
 const port = 3000;
 
 
-
+app.use(express.urlencoded({
+  extended:true
+}));
+app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 app.engine('hbs', handlebars({
@@ -17,15 +20,24 @@ app.set('views',path.join(__dirname,'resources/views'));
 
 
  
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
   
   res.render('home');
 })
+
 app.get('/contact', (req, res) => {
   
   res.render('contact');
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+app.get('/search', (req, res) => {
+  
+  res.render('search');
 })
+
+app.post('/home', (req, res) => {
+  
+  res.render('contact');
+})
+
+app.listen(port);
