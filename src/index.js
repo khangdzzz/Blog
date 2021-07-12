@@ -3,12 +3,17 @@ const express = require('express')
 const handlebars  = require('express-handlebars');
 const app = express()
 const port = 3000;
+const route = require('./routes');
+const db = require('./config/db');
+
 
 
 app.use(express.urlencoded({
   extended:true
 }));
+
 app.use(express.json());
+
 app.use(express.static(path.join(__dirname)));
 
 app.engine('hbs', handlebars({
@@ -18,26 +23,15 @@ app.engine('hbs', handlebars({
 app.set('view engine', 'hbs');
 app.set('views',path.join(__dirname,'resources/views'));
 
+db.connect();
+route(app);
 
- 
-app.get('/home', (req, res) => {
-  
-  res.render('home');
-})
 
-app.get('/contact', (req, res) => {
-  
-  res.render('contact');
-})
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+});
 
-app.get('/search', (req, res) => {
-  
-  res.render('search');
-})
 
-app.post('/home', (req, res) => {
-  
-  res.render('contact');
-})
 
-app.listen(port);
+
+//search app.use defferent with app.get
